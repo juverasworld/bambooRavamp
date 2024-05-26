@@ -82,3 +82,32 @@ window.addEventListener('scroll', function() {
     marqueeTween.timeScale(speed);
     this.oldScroll = this.scrollY;
 });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+	const menuBtn = document.getElementById("menu-btn");
+	const navContainer = document.getElementById("nav-container");
+	const menuItems = document.getElementById("menu-items");
+  
+	menuBtn.addEventListener("click", () => {
+	  const isClicked = navContainer.style.top === "0px";
+	  navContainer.style.top = isClicked ? "-5rem" : "0px";
+	});
+  
+	// GSAP animation for initial load
+	gsap.fromTo(navContainer, { y: "-100%" }, { y: "0%", duration: 2, delay: 2 });
+  
+	// GSAP drag functionality
+	gsap.registerPlugin(Draggable);
+  
+	Draggable.create(menuItems, {
+	  type: "y",
+	  bounds: { minY: 0, maxY: 70 },
+	  edgeResistance: 0.05,
+	  inertia: true,
+	  onDragEnd: function() {
+		gsap.to(menuItems, { y: 0 });
+	  }
+	});
+  });
+  
